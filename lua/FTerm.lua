@@ -18,4 +18,13 @@ function M.toggle()
     t:toggle()
 end
 
+function M.run(cmd_str)
+    t:run(cmd_str)
+end
+
+function M.cd_cwd()
+  local cwd = vim.api.nvim_exec('pwd',true)
+  t:run('cd ' .. cwd .. '\n')
+end
+
 return M
