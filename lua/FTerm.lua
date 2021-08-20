@@ -18,13 +18,9 @@ function M.toggle()
     t:toggle()
 end
 
-function M.run(cmd_str)
-    t:run(cmd_str)
-end
-
-function M.cd_cwd()
-  local cwd = vim.api.nvim_exec('pwd',true)
-  t:run('cd ' .. cwd .. '\n')
+function M.run(cmd_str,opts)
+    -- user should append '\n' or '\n'
+    t:run(cmd_str,opts)
 end
 
 return M

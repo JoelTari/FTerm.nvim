@@ -206,10 +206,17 @@ function Terminal:toggle()
     end
 end
 
--- Terminal:run is used to (open and) run commands to terminal window
-function Terminal:run(command)
-    self:open()
-    api.nvim_chan_send(self.jobid, command)
+-- Terminal:run is used to run commands to terminal window, if it exists as a buffer
+function Terminal:run(command,opts)
+    opts=opts or {}
+    -- TODO: role of opts: open the terminal or not
+    -- opts.open_term 
+    if vim.tbl_contains(vim.api.nvim_list_bufs(), self.buf) then
+        api.nvim_chan_send(self.jobid, command)
+    else
+        -- nothing happens if the terminal hasn't been created
+        print('no terminal buffer exists')
+    end
 end
 
 return Terminal
