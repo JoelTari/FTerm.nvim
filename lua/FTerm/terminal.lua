@@ -209,13 +209,18 @@ end
 -- Terminal:run is used to run commands to terminal window, if it exists as a buffer
 function Terminal:run(command,opts)
     opts=opts or {}
-    -- TODO: role of opts: open the terminal or not
-    -- opts.open_term 
+    -- opts.open_term : open the terminal or exec the command without showing
+    --                  the terminal
+    if opts.open_term then
+      self:open() -- this 'creates' the terminal if never opened before
+    end
+    -- if terminal hasn't opened yet AND open_term is false, 
+    -- then no command is to be executed
     if vim.tbl_contains(vim.api.nvim_list_bufs(), self.buf) then
         api.nvim_chan_send(self.jobid, command)
     else
         -- nothing happens if the terminal hasn't been created
-        print('no terminal buffer exists')
+        print('No terminal buffer exists, command not run')
     end
 end
 
